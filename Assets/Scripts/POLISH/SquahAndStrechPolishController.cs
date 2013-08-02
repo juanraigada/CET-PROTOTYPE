@@ -1,6 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
+/********************************************************************************
+ * 	SQUASHES AND STRECTCHES THE BALL ON JUMP 
+ *	Animations, even this simple, can totally change how a character feels.
+ * ******************************************************************************/
+
 public class SquahAndStrechPolishController : PolishController {
 
 	//variable that points to the visual representation of the ball.

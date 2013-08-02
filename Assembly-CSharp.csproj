@@ -44,21 +44,21 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\NEW SYSTEM\AccelerationJump.cs" />
-     <Compile Include="Assets\Scripts\NEW SYSTEM\CameraController.cs" />
-     <Compile Include="Assets\Scripts\NEW SYSTEM\CameraLookController.cs" />
-     <Compile Include="Assets\Scripts\NEW SYSTEM\CameraShakeController.cs" />
-     <Compile Include="Assets\Scripts\NEW SYSTEM\CurveBasedJump.cs" />
-     <Compile Include="Assets\Scripts\NEW SYSTEM\CurveBasedMovement.cs" />
-     <Compile Include="Assets\Scripts\NEW SYSTEM\ForceMovementController.cs" />
-     <Compile Include="Assets\Scripts\NEW SYSTEM\InputManager.cs" />
-     <Compile Include="Assets\Scripts\NEW SYSTEM\LinearMovementController.cs" />
-     <Compile Include="Assets\Scripts\NEW SYSTEM\MovementController.cs" />
-     <Compile Include="Assets\Scripts\NEW SYSTEM\MovementManager.cs" />
-     <Compile Include="Assets\Scripts\NEW SYSTEM\PolishController.cs" />
-     <Compile Include="Assets\Scripts\NEW SYSTEM\ShadowPolishController.cs" />
-     <Compile Include="Assets\Scripts\NEW SYSTEM\SquahAndStrechPolishController.cs" />
-     <Compile Include="Assets\Scripts\PlayerJumpController.cs" />
+     <Compile Include="Assets\Scripts\InputManager.cs" />
+     <Compile Include="Assets\Scripts\MOVEMENT\AccelerationJump.cs" />
+     <Compile Include="Assets\Scripts\MOVEMENT\CurveBasedJump.cs" />
+     <Compile Include="Assets\Scripts\MOVEMENT\CurveBasedMovement.cs" />
+     <Compile Include="Assets\Scripts\MOVEMENT\ForceMovementController.cs" />
+     <Compile Include="Assets\Scripts\MOVEMENT\LinearMovementController.cs" />
+     <Compile Include="Assets\Scripts\MOVEMENT\MovementController.cs" />
+     <Compile Include="Assets\Scripts\MovementManager.cs" />
+     <Compile Include="Assets\Scripts\POLISH\CameraLookController.cs" />
+     <Compile Include="Assets\Scripts\POLISH\CameraShakeController.cs" />
+     <Compile Include="Assets\Scripts\POLISH\ParticlePolishController.cs" />
+     <Compile Include="Assets\Scripts\POLISH\PolishController.cs" />
+     <Compile Include="Assets\Scripts\POLISH\ShadowPolishController.cs" />
+     <Compile Include="Assets\Scripts\POLISH\SoundPolishController.cs" />
+     <Compile Include="Assets\Scripts\POLISH\SquahAndStrechPolishController.cs" />
      <None Include="Assets\Standard Assets\Projectors\Guidelines.txt" />
      <None Include="Assets\Standard Assets\Projectors\Sources\Shaders\Projector Multiply.shader" />
      <None Include="Assets\Standard Assets\Projectors\Sources\Shaders\Projector Light.shader" />

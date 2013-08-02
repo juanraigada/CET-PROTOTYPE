@@ -81,8 +81,8 @@ public class CameraShakeController : PolishController {
 										GUI.Label (new Rect(0,MovementManager.controlHeight*3 + MovementManager.controlHeight*2,Screen.width/4,MovementManager.controlHeight),"Shake out vector size = " + shakeOutStrength);
 		shakeRecoverStrength = 				GUI.HorizontalSlider (new Rect(Screen.width/4,MovementManager.controlHeight*3 + MovementManager.controlHeight*3,Screen.width/4,MovementManager.controlHeight), shakeRecoverStrength, 0.0f, 1.0f);
 										GUI.Label (new Rect(0,MovementManager.controlHeight*3 + MovementManager.controlHeight*3,Screen.width/4,MovementManager.controlHeight),"Strength of movement interpolation to shake position = " + shakeRecoverStrength);
-		shakeTime = 					GUI.HorizontalSlider (new Rect(Screen.width/4,MovementManager.controlHeight*3 + MovementManager.controlHeight*3,Screen.width/4,MovementManager.controlHeight), shakeTime, 0.0f, 2.0f);
-										GUI.Label (new Rect(0,MovementManager.controlHeight*3 + MovementManager.controlHeight*3,Screen.width/4,MovementManager.controlHeight),"Time the shake lasts = " + shakeTime);
+		shakeTime = 					GUI.HorizontalSlider (new Rect(Screen.width/4,MovementManager.controlHeight*3 + MovementManager.controlHeight*4,Screen.width/4,MovementManager.controlHeight), shakeTime, 0.0f, 2.0f);
+										GUI.Label (new Rect(0,MovementManager.controlHeight*3 + MovementManager.controlHeight*4,Screen.width/4,MovementManager.controlHeight),"Time the shake lasts = " + shakeTime);
 		
 	}
 }

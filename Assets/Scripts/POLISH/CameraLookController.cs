@@ -4,7 +4,7 @@ using System.Collections;
 /********************************************************************************
  * 	CONTROLS THE CAMERA ORIENTATION
  *	Cameras are considered polish, although arguably they affect simulation and control.
- *All this script dioes is to ensure the camera always points towards the ball.
+ *All this script does is to ensure the camera always points towards the ball.
  * ******************************************************************************/
 
 public class CameraLookController : PolishController {
@@ -12,7 +12,7 @@ public class CameraLookController : PolishController {
 	// Use this for initialization
 	void Start () {
 		polishName = "Camera Look";
-		numberOfOptions = 5;
+		numberOfOptions = 4;
 	}
 	
 		/****************************
