@@ -15,9 +15,9 @@ public class CurveBasedJump : MovementController {
 		 * ******************/
 	//These variables hold the speed curve for the jump, the duration of the curve, it's magnitude (what speed the curve maps to in the vertical) at the normalized point in time we cutoff to (since we map speed to time, we dont need a speed value but a time value).
 	public AnimationCurve jumpSpeedCurve;
-	float jumpCurveLength = 1.5f;
-	float jumpCurveMagnitude = 30f;
-	float jumpCurveCapPoint = 0.3f;
+	float jumpCurveLength = 1.05f;
+	float jumpCurveMagnitude = 40f;
+	float jumpCurveCapPoint = 0.35f;
 		//This is an auxiliary variable to hold the current time into the jump. A generic timer class would do, but this is more readable.
 	float currentJumpCurveTime;
 		//Normalized point at which the curve goes from up to down. This means the Apex of the curve in Unity's editor should rest at 0.5 in the X axis.

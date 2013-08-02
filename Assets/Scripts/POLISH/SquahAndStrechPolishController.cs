@@ -18,22 +18,29 @@ public class SquahAndStrechPolishController : PolishController {
 		numberOfOptions = 7;
 	}
 	
+	
+	public override void DoPolish(){
+		if(squashAndStrech){
+			DoSquashAndStrech();
+		}
+		
+	}
+	
 		/****************************
 		 * SQUASH AND STRETCH:	
 		 * *************************/
 	//These deals with the squash and stretching, by setting magnitudes.
 	bool squashAndStrech = true;
 	float squashMagnitude = 0.75f;
-	float stretchMagnitude = 0.75f;
+	float stretchMagnitude = 0.35f;
 	float maxSpeedStretch = 10;
 	float maxSpeedSquash = 10;
 		//This stores the Squash time in case of collision at max speed.
-	float squashMaxtime = 0.4f;
+	float squashMaxtime = 0.25f;
 	float squashCurrentTime = 0f;
 	float jumpCollisionSpeed = 0f;
 	
-	public override void DoPolish(){
-		if(squashAndStrech){
+	void DoSquashAndStrech(){
 			Vector3 wantedScale = new Vector3(1,1,1);
 			if(MovementManager.isJumping){
 			//Then, if jumping, we simply stretch the ball according to the current speed.
@@ -53,7 +60,6 @@ public class SquahAndStrechPolishController : PolishController {
 			ball.localScale = Vector3.Lerp (ball.localScale,wantedScale,10f*Time.deltaTime);
 			ball.localPosition = new Vector3(0,-(1-ball.localScale.y)/2,0);
 			ball.rotation = Quaternion.LookRotation(ball.forward,MovementManager.currentCollisionNormal);
-		}
 		
 	}
 	
@@ -72,5 +78,14 @@ public class SquahAndStrechPolishController : PolishController {
 										GUI.Label (new Rect(0,MovementManager.controlHeight*3 + MovementManager.controlHeight*5,Screen.width/4,MovementManager.controlHeight),"Speed at which squash maxes out = " + maxSpeedSquash);
 		squashMaxtime = 				GUI.HorizontalSlider (new Rect(Screen.width/4,MovementManager.controlHeight*3 + MovementManager.controlHeight*6,Screen.width/4,MovementManager.controlHeight), squashMaxtime, 0.0f, 2.0f);
 										GUI.Label (new Rect(0,MovementManager.controlHeight*3 + MovementManager.controlHeight*6,Screen.width/4,MovementManager.controlHeight),"Time the squash lasts = " + squashMaxtime);
+	}
+	
+	//AUXILIARY FUNTIONS TO COMMUNICATE WITH OTHER ANIMATION CONTROLLERS
+	public bool IsSquashFinished(){
+		if(squashCurrentTime>squashMaxtime*2){
+			return true;
+		}else{
+			return false;
+		}
 	}
 }

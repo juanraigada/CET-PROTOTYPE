@@ -52,6 +52,7 @@
      <Compile Include="Assets\Scripts\MOVEMENT\LinearMovementController.cs" />
      <Compile Include="Assets\Scripts\MOVEMENT\MovementController.cs" />
      <Compile Include="Assets\Scripts\MovementManager.cs" />
+     <Compile Include="Assets\Scripts\POLISH\AnimationPolishController.cs" />
      <Compile Include="Assets\Scripts\POLISH\CameraLookController.cs" />
      <Compile Include="Assets\Scripts\POLISH\CameraShakeController.cs" />
      <Compile Include="Assets\Scripts\POLISH\ParticlePolishController.cs" />

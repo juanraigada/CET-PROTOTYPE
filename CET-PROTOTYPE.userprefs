@@ -1,6 +1,15 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\POLISH\AnimationPolishController.cs">
+    <Files>
+      <File FileName="Assets\Scripts\POLISH\AnimationPolishController.cs" Line="112" Column="103" />
+      <File FileName="Assets\Scripts\POLISH\SquahAndStrechPolishController.cs" Line="53" Column="41" />
+      <File FileName="Assets\Scripts\MovementManager.cs" Line="145" Column="38" />
+      <File FileName="Assets\Scripts\MOVEMENT\LinearMovementController.cs" Line="19" Column="26" />
+      <File FileName="Assets\Scripts\POLISH\CameraLookController.cs" Line="13" Column="2" />
+      <File FileName="Assets\Scripts\MOVEMENT\CurveBasedJump.cs" Line="29" Column="25" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

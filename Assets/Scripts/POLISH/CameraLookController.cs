@@ -8,7 +8,9 @@ using System.Collections;
  * ******************************************************************************/
 
 public class CameraLookController : PolishController {
-
+	
+	public Transform ball;
+	
 	// Use this for initialization
 	void Start () {
 		polishName = "Camera Look";
@@ -21,7 +23,7 @@ public class CameraLookController : PolishController {
 	//Will we slowly interpolate the camera to face the ball?
 	bool interpolateCamera = true;
 	//Variables to hold the current and the desired interpolation strength (the current we used, the desired we switch to when we want soft interpolation. Otherwise we set current to a high value).
-	float cameraInterpolationStrength = 5f;
+	float cameraInterpolationStrength = 16f;
 	//Vertical offset (characters are seldom centered in the vertical)
 	float cameraVerticalOffSet = 3;
 	
@@ -29,10 +31,10 @@ public class CameraLookController : PolishController {
 	public override void DoPolish(){
 		if(interpolateCamera){
 			//Focus camera on ball. Ideally this code would be in a proper CameraController class. However, for the purposes of this exercise, we are keeping all relevant code in one single file.
-			Camera.main.transform.rotation = Quaternion.Slerp (Camera.main.transform.rotation,Quaternion.LookRotation(transform.position + Camera.main.transform.up*cameraVerticalOffSet - Camera.main.transform.position,Camera.main.transform.up),cameraInterpolationStrength*Time.deltaTime);
+			Camera.main.transform.rotation = Quaternion.Slerp (Camera.main.transform.rotation,Quaternion.LookRotation(ball.position + Camera.main.transform.up*cameraVerticalOffSet - Camera.main.transform.position,Camera.main.transform.up),cameraInterpolationStrength*Time.deltaTime);
 		}else{
 			//Focus camera on ball. 
-			Camera.main.transform.rotation = Quaternion.LookRotation(transform.position + Camera.main.transform.up*cameraVerticalOffSet - Camera.main.transform.position,Camera.main.transform.up);
+			Camera.main.transform.rotation = Quaternion.LookRotation(ball.position + Camera.main.transform.up*cameraVerticalOffSet - Camera.main.transform.position,Camera.main.transform.up);
 		}
 	}
 	

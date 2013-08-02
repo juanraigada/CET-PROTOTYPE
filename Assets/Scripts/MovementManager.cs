@@ -134,7 +134,10 @@ public class MovementManager : MonoBehaviour {
 		 * SIMULATION UPDATE: 
 		 * ******************/
 	//Logic code (related to the simulation) always goes on Fixedupdate
-	void FixedUpdate () {		
+	void FixedUpdate () {	
+		if(isJumping){
+			currentCollisionNormal = Vector3.up;
+		}
 		for(int i = 0; i < movementTypes.Length; i +=1){
 			if(i==currentMovementType){
 				movementTypes[i].enabled = true;
