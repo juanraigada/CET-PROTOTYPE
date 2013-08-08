@@ -41,34 +41,32 @@ public class CameraShakeController : PolishController {
 	float currentShaketime = 0f;
 	
 	public override void DoPolish(){
-		//Check if we need to initialize the shake.
-		if(cameraOriginalPosition == Vector3.zero){
-			cameraOriginalPosition = Camera.main.transform.position;
-		}
 		if(shakeCamera){
+			//Check if we need to initialize the shake.
+			if(!isShaking){
+				cameraOriginalPosition = Camera.main.transform.position;
+			}
 			if(!MovementManager.isJumping && wasJumping){
 				currentShaketime = 0;
 				isShaking = true;
 			}
-		}
-		//If the shake is initialized, execute it.
-		if(isShaking&&!MovementManager.isJumping){
-			currentShaketime += Time.deltaTime;
-			if(currentShaketime > shakeTime){
-				isShaking = false;
+			//If the shake is initialized, execute it.
+			if(isShaking&&!MovementManager.isJumping){
+				currentShaketime += Time.deltaTime;
+				if(currentShaketime > shakeTime){
+					isShaking = false;
+				}
+				Vector3 randomVector = Random.insideUnitSphere*shakeOutStrength;
+				Camera.main.transform.position = Vector3.Lerp (Camera.main.transform.position,Camera.main.transform.position+randomVector,shakeRecoverStrength*Time.deltaTime);
+				
 			}
-			Vector3 randomVector = Random.insideUnitSphere*shakeOutStrength;
-			Camera.main.transform.position = Vector3.Lerp (Camera.main.transform.position,Camera.main.transform.position+randomVector,shakeRecoverStrength*Time.deltaTime);
 			
-		}else{
-			Camera.main.transform.position = cameraOriginalPosition;
-		}
-		
-		//Here we set the flag as tio wether the character was jumping in the previous frame.
-		if(!MovementManager.isJumping){
-			wasJumping = false;
-		}else{
-			wasJumping = true;
+			//Here we set the flag as tio wether the character was jumping in the previous frame.
+			if(!MovementManager.isJumping){
+				wasJumping = false;
+			}else{
+				wasJumping = true;
+			}
 		}
 	}
 	

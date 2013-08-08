@@ -13,7 +13,7 @@ public class SoundPolishController : PolishController {
 	// Use this for initialization
 	void Start () {
 		polishName = "Sound";
-		numberOfOptions = 3;
+		numberOfOptions = 4;
 	}
 	
 		/****************************
@@ -27,13 +27,18 @@ public class SoundPolishController : PolishController {
 	//Note tghe order we call these functions in our main Polish function so that this variable behaves consistently.
 	bool wasJumpingForSound = false;
 	
+	//Play sound on hop?
+	bool playHopSound = true;
+	
 	//AudioSurce to play the saounds with. To assign in editor.
 	public AudioSource audioSource;
 	//Clips to play
 	public AudioClip jumpSound;
 	public AudioClip landSound;
+	public AudioClip hopSound;
 	public float jumpSoundVolume;
 	public float landSoundVolume;
+	public float hopSoundVolume;
 	
 	public override void DoPolish(){
 		if(playJumpSound){
@@ -41,6 +46,10 @@ public class SoundPolishController : PolishController {
 		}
 		if(playLandSound){
 			PlayLandSound();
+		}
+		
+		if(playHopSound){
+			PlayHopSound();
 		}
 		if(!MovementManager.isJumping){
 			wasJumpingForSound = false;
@@ -65,11 +74,22 @@ public class SoundPolishController : PolishController {
 		}
 	}
 	
+	void PlayHopSound(){
+		if( gameObject.GetComponent("AnimationPolishController") && ((AnimationPolishController)gameObject.GetComponent("AnimationPolishController")).playHopSound){
+			((AnimationPolishController)gameObject.GetComponent("AnimationPolishController")).playHopSound = false;
+			audioSource.clip = hopSound;
+			audioSource.volume = hopSoundVolume;
+			audioSource.Play ();
+			audioSource.time = 0.2f;
+		} 
+	}
+	
 		/*********************
 		 * GUI CONTROLS: 
 		 * ******************/
 	public override void DrawGUIControls(Rect rect){
 		playLandSound = 			GUI.Toggle(new Rect(0,MovementManager.controlHeight*3 + MovementManager.controlHeight,Screen.width/2,MovementManager.controlHeight),playLandSound,"Play Sound on Land?");
 		playJumpSound = 			GUI.Toggle(new Rect(0,MovementManager.controlHeight*3 + MovementManager.controlHeight*2,Screen.width/2,MovementManager.controlHeight),playJumpSound,"Play Sound on Jump?");
-	}
+		playHopSound = 				GUI.Toggle(new Rect(0,MovementManager.controlHeight*3 + MovementManager.controlHeight*3,Screen.width/2,MovementManager.controlHeight),playHopSound,"Play Sound on hop?");
+	}	
 }

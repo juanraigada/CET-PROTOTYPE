@@ -14,7 +14,7 @@ public class ParticlePolishController : PolishController {
 	// Use this for initialization
 	void Start () {
 		polishName = "Particles";
-		numberOfOptions = 3;
+		numberOfOptions = 4;
 	}
 	
 		/****************************
@@ -23,9 +23,11 @@ public class ParticlePolishController : PolishController {
 	//Ground hit particles. To create and assign in the editor.
 	public ParticleSystem groundHitparticles;
 	public ParticleSystem jumpParticles;
+	public ParticleSystem hopParticles;
 	//These variables tell the ball wheter to play particles or not.
 	bool polishJumpWithParticle = true;
 	bool polishLandWithParticle = true;
+	bool polishHopWithParticle = true;
 	//Auxiliary flag to detect a collision without having to go into the collision functions, to keep this part of the code self-reliable.
 	//Note tghe order we call these functions in our main Polish function so that this variable behaves consistently.
 	bool wasJumpingForParticles = false;
@@ -36,6 +38,9 @@ public class ParticlePolishController : PolishController {
 		}
 		if(polishJumpWithParticle){
 			PlayJumpParticles();
+		}
+		if(polishHopWithParticle){
+			PlayHopParticles();
 		}
 		if(!MovementManager.isJumping){
 			wasJumpingForParticles = false;
@@ -62,11 +67,23 @@ public class ParticlePolishController : PolishController {
 			}
 	}
 	
+	//Play the jump particles. We should call this funciton at input detection, but, as for the previous one, we are using flags so we can maintain independency. 
+	//We are using an alternate method, since we dont have a isJumping state indicator equivalent. Don't do this in a real project.	
+	void PlayHopParticles(){
+		if( gameObject.GetComponent("AnimationPolishController") && ((AnimationPolishController)gameObject.GetComponent("AnimationPolishController")).playHopParticle){
+			((AnimationPolishController)gameObject.GetComponent("AnimationPolishController")).playHopParticle = false;
+				hopParticles.transform.position = transform.position - MovementManager.currentCollisionNormal/2;
+				hopParticles.transform.rotation = Quaternion.LookRotation (MovementManager.currentCollisionNormal,transform.forward);
+				hopParticles.Play ();
+		} 
+	}
+	
 		/*********************
 		 * GUI CONTROLS: 
 		 * ******************/
 	public override void DrawGUIControls(Rect rect){
 		polishLandWithParticle = 			GUI.Toggle(new Rect(0,MovementManager.controlHeight*3 + MovementManager.controlHeight,Screen.width/2,MovementManager.controlHeight),polishLandWithParticle,"Play Particles on Land?");
 		polishJumpWithParticle = 			GUI.Toggle(new Rect(0,MovementManager.controlHeight*3 + MovementManager.controlHeight*2,Screen.width/2,MovementManager.controlHeight),polishJumpWithParticle,"Play Particles on Jump?");
+		polishHopWithParticle = 			GUI.Toggle(new Rect(0,MovementManager.controlHeight*3 + MovementManager.controlHeight*3,Screen.width/2,MovementManager.controlHeight),polishHopWithParticle,"Play Particles on Hop?");
 	}
 }

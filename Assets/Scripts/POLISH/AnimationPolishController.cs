@@ -15,7 +15,7 @@ public class AnimationPolishController : PolishController {
 	// Use this for initialization
 	void Start () {
 		polishName = "Animation";
-		numberOfOptions = 7;
+		numberOfOptions = 12;
 	}
 	
 		/****************************
@@ -36,15 +36,18 @@ public class AnimationPolishController : PolishController {
 	public AnimationCurve verticalHopCurve;
 	public AnimationCurve horizontalHopCurve;
 	public AnimationCurve scaleHopCurve;
-	float speedToCurveFactor = 0.25f;
-	float hopTime = 0.35f;
-	float hopHeight = 0.25f;
-	float scaleFactor = 0.9f;
-	float distanceFactor = 0.05f;
+	float speedToCurveFactor = 0.075f;
+	float hopTime = 0.2f;
+	float hopHeight = 0.85f;
+	float scaleFactor = 1.8f;
 	//Auxiliary
 	float currentHoptime = 0;
 	float blinkCurrentTime = 0;
 	float blinkTime = 0;
+	
+	//This is going to be used by the sound and particle controllers to check whether its time to play
+	public bool playHopSound = false;
+	public bool playHopParticle = false;
 	
 	Vector3 previouslook;
 	
@@ -99,29 +102,61 @@ public class AnimationPolishController : PolishController {
 		}
 		
 		
-		//Movemenet hops
-		
-		//NOTE: this code interacts with the squash and strech code, since we are starting to do very similare things in different classes... N
-		//This was to demosntrate the jump animation polish without having to introduce the move animation polish.
+		//Movement hops
+		//NOTE: this code interacts with the squash and strech code, since we are starting to do very similare things in different classes...
+		//This was to demonstrate the jump animation polish without having to introduce the move animation polish.
 		//However, in a real implementation that code has to go together.
 		if(hop&&!MovementManager.isJumping&&((SquahAndStrechPolishController)gameObject.GetComponent("SquahAndStrechPolishController")).IsSquashFinished()){
 			//How much space am I going through at this speed for a full hop
-			float distance = (rigidbody.velocity - Vector3.Project(rigidbody.velocity,MovementManager.currentCollisionNormal)).magnitude*speedToCurveFactor*hopTime;
+			float distance = (rigidbody.velocity - Vector3.Project(rigidbody.velocity,MovementManager.currentCollisionNormal)).magnitude*speedToCurveFactor*hopTime; 
 			//Where am I on the hop
-			if(rigidbody.velocity.magnitude > 5 || currentHoptime > 0){
-				currentHoptime = currentHoptime + Time.deltaTime*distanceFactor/Mathf.Min (distance,distanceFactor);
+			if(rigidbody.velocity.magnitude > 2 || currentHoptime > 0){
+				currentHoptime = currentHoptime + Time.deltaTime;
 			}
 			float am = currentHoptime/hopTime;  
 			ball.transform.localScale = new Vector3(1,1-((0.5f-scaleHopCurve.Evaluate(am))/2)*scaleFactor,1);
-			Debug.Log (am + " " + scaleHopCurve.Evaluate(am));
 			ball.transform.localPosition = -ball.transform.forward*horizontalHopCurve.Evaluate(am)*distance + ball.transform.up*hopHeight*verticalHopCurve.Evaluate(am) -ball.transform.up*(1-ball.transform.localScale.y)/2;
 			
 			if(currentHoptime > hopTime){
 				currentHoptime = 0;
 			}
+			//For hopping we need to do it in the "going up" phase. Note that we are using a number under 0.5 so that theres no delay.
+			if(currentHoptime > hopTime*0.35 && currentHoptime - Time.deltaTime< hopTime*0.35){
+				playHopSound = true;
+				//Here we set the hooks for sound and particles...
+				playHopParticle = true;
+			}
 		}else{
 			currentHoptime = 0;
 		}
+	}
+	
+		/*********************
+		 * GUI CONTROLS: 
+		 * ******************/
+	public override void DrawGUIControls(Rect rect){
+		showEyes = 						GUI.Toggle(new Rect(0,MovementManager.controlHeight*3 + MovementManager.controlHeight,Screen.width/2,MovementManager.controlHeight),showEyes,"Show Eyes?");
+		rotationBasedOnInput = 			GUI.Toggle(new Rect(0,MovementManager.controlHeight*3 + MovementManager.controlHeight*2,Screen.width/2,MovementManager.controlHeight),rotationBasedOnInput,"Is rotation based on input (as possed to on velocity)?");
+		rotationSpeed = 				GUI.HorizontalSlider (new Rect(Screen.width/4,MovementManager.controlHeight*3 + MovementManager.controlHeight*3,Screen.width/4,MovementManager.controlHeight), rotationSpeed, 0.0f, 30.0f);
+										GUI.Label (new Rect(0,MovementManager.controlHeight*3 + MovementManager.controlHeight*3,Screen.width/4,MovementManager.controlHeight),"Rotation Speed = " + rotationSpeed);
+		
+		blink = 						GUI.Toggle(new Rect(0,MovementManager.controlHeight*3 + MovementManager.controlHeight*4,Screen.width/2,MovementManager.controlHeight),blink,"Blink?");
+		blinkRandomPeriod = 			GUI.HorizontalSlider (new Rect(Screen.width/4,MovementManager.controlHeight*3 + MovementManager.controlHeight*5,Screen.width/4,MovementManager.controlHeight), blinkRandomPeriod, 0.0f, 5.0f);
+										GUI.Label (new Rect(0,MovementManager.controlHeight*3 + MovementManager.controlHeight*5,Screen.width/4,MovementManager.controlHeight),"Average time between blinks = " + blinkRandomPeriod);
+		blinkDuration = 				GUI.HorizontalSlider (new Rect(Screen.width/4,MovementManager.controlHeight*3 + MovementManager.controlHeight*6,Screen.width/4,MovementManager.controlHeight), blinkDuration, 0.0f, 2.0f);
+										GUI.Label (new Rect(0,MovementManager.controlHeight*3 + MovementManager.controlHeight*6,Screen.width/4,MovementManager.controlHeight),"Duration of each blink = " + blinkDuration);
+		
+		
+		hop = 							GUI.Toggle(new Rect(0,MovementManager.controlHeight*3 + MovementManager.controlHeight*7,Screen.width/2,MovementManager.controlHeight),hop,"Hop?");
+		speedToCurveFactor = 			GUI.HorizontalSlider (new Rect(Screen.width/4,MovementManager.controlHeight*3 + MovementManager.controlHeight*8,Screen.width/4,MovementManager.controlHeight), speedToCurveFactor, 0.0f, 1.0f);
+										GUI.Label (new Rect(0,MovementManager.controlHeight*3 + MovementManager.controlHeight*8,Screen.width/4,MovementManager.controlHeight),"Factor of hop speed versus real speed = " + speedToCurveFactor);
+		hopTime = 						GUI.HorizontalSlider (new Rect(Screen.width/4,MovementManager.controlHeight*3 + MovementManager.controlHeight*9,Screen.width/4,MovementManager.controlHeight), hopTime, 0.0f, 2.0f);
+										GUI.Label (new Rect(0,MovementManager.controlHeight*3 + MovementManager.controlHeight*9,Screen.width/4,MovementManager.controlHeight),"Time each hop takes = " + hopTime);
+		hopHeight = 						GUI.HorizontalSlider (new Rect(Screen.width/4,MovementManager.controlHeight*3 + MovementManager.controlHeight*10,Screen.width/4,MovementManager.controlHeight), hopHeight, 0.0f, 2.0f);
+										GUI.Label (new Rect(0,MovementManager.controlHeight*3 + MovementManager.controlHeight*10,Screen.width/4,MovementManager.controlHeight),"Height of each hop (checked against curve) = " + hopHeight);
+		scaleFactor = 						GUI.HorizontalSlider (new Rect(Screen.width/4,MovementManager.controlHeight*3 + MovementManager.controlHeight*11,Screen.width/4,MovementManager.controlHeight), scaleFactor, 0.0f, 2.0f);
+										GUI.Label (new Rect(0,MovementManager.controlHeight*3 + MovementManager.controlHeight*11,Screen.width/4,MovementManager.controlHeight),"Squash and strech of each hop (checked against curve) = " + scaleFactor);
+		
 	}
 	
 }

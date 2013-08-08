@@ -74,53 +74,46 @@ public class MovementManager : MonoBehaviour {
 	//note that this is different than the movemenet related limits, movement speed can be limited by lower slopes, but we need a maximum to avoid the ball sticking to walls shall the standard limits be too low.
 	static float maxSlope = 60;
 	
-	void GetGroundNormal(Vector3 point){
+	Vector3 GetGroundNormal(Vector3 point){
 		//Here we get the normal at the collision.
 		//The Collision structure Unity gives the collision functions is useful, but the normal it gives is modified by tghe relative speed -and it's behavior is a black box without access to the code-.
 		//Therefore we need an extra raycast to get the true surface normal at the point.
 		RaycastHit hit = new RaycastHit();
-		if (Physics.Raycast (transform.position, point,out hit,5,toIgnore)) {
-			currentCollisionNormal = hit.normal;
+		if (Physics.Raycast (transform.position, point,out hit,5f,toIgnore)) {
+			return hit.normal;
 		}
+		return Vector3.up;
+	}
+	
+	bool isOnGround(){
+		RaycastHit hit = new RaycastHit();
+		if (Physics.Raycast (transform.position,  - currentCollisionNormal,out hit,0.5f,toIgnore)) {
+			return true;
+		}
+		else return false;
 	}
 	
 	//Hooks for Unity's collision functions. 
 	//We use two collision functions to avoid unwanted side-effects on edge cases, although most likely behaviotr will be 100% similar without the OnStay callnback.
 	void OnCollisionEnter (Collision coll){
-		//This is the only part of the code that is not yet used for control and simulation (it would be if apart from jumping we would have horizontal displacement).
-		//It is used in the polish section of the code, though.
 		for(int i = 0 ; i < coll.contacts.Length; i+=1){
-			Vector3 previousNormal = currentCollisionNormal;
-			Vector3 differentNormal = currentCollisionNormal;
-			GetGroundNormal(coll.contacts[i].point);
-			if(Vector3.Angle (currentCollisionNormal,Vector3.up) > maxSlope && Vector3.Angle (currentCollisionNormal,Vector3.up) < 360 - maxSlope){  
-				currentCollisionNormal = previousNormal;
-			}else{
+			Vector3 differentNormal = GetGroundNormal(coll.contacts[i].point);;
+			
+			if(Vector3.Angle (differentNormal,Vector3.up) <= maxSlope ){  
+				currentCollisionNormal = differentNormal;
 				isJumping = false;
-				if(differentNormal != previousNormal){
-					differentNormal = currentCollisionNormal;
-				}
 			}
-			currentCollisionNormal = differentNormal;
 		}
 	}
 	
 	void OnCollisionStay (Collision coll){
-		//This is the only part of the code that is not yet used for control and simulation (it would be if apart from jumping we would have horizontal displacement).
-		//It is used in the polish section of the code, though.
 		for(int i = 0 ; i < coll.contacts.Length; i+=1){
-			Vector3 previousNormal = currentCollisionNormal;
-			Vector3 differentNormal = currentCollisionNormal;
-			GetGroundNormal(coll.contacts[i].point);
-			if(Vector3.Angle (currentCollisionNormal,Vector3.up) > maxSlope && Vector3.Angle (currentCollisionNormal,Vector3.up) < 360 - maxSlope){
-				currentCollisionNormal = previousNormal;
-			}else{
+			Vector3 differentNormal = GetGroundNormal(coll.contacts[i].point);;
+			
+			if(Vector3.Angle (differentNormal,Vector3.up) <= maxSlope){  
+				currentCollisionNormal = differentNormal;
 				isJumping = false;
-				if(differentNormal !=currentCollisionNormal){
-					differentNormal = currentCollisionNormal;
-				}
 			}
-			currentCollisionNormal = differentNormal;
 		}
 	}
 	
@@ -134,10 +127,16 @@ public class MovementManager : MonoBehaviour {
 		 * SIMULATION UPDATE: 
 		 * ******************/
 	//Logic code (related to the simulation) always goes on Fixedupdate
-	void FixedUpdate () {	
+	void FixedUpdate () {
 		if(isJumping){
 			currentCollisionNormal = Vector3.up;
 		}
+		if(!isOnGround()){
+			isJumping = true;
+		}else{
+			isJumping = false;
+		}
+		
 		for(int i = 0; i < movementTypes.Length; i +=1){
 			if(i==currentMovementType){
 				movementTypes[i].enabled = true;
@@ -154,6 +153,10 @@ public class MovementManager : MonoBehaviour {
 		}
 		movementTypes[currentMovementType].MovementUpdate();
 		jumpTypes[currentJumpType].MovementUpdate();
+		
+	}
+	
+	void LateUpdate(){
 	}
 	
 	
