@@ -16,7 +16,7 @@ public class CameraLookController : PolishController {
 	// Use this for initialization
 	void Start () {
 		polishName = "Camera Look";
-		numberOfOptions = 4;
+		numberOfOptions = 9;
 	}
 	
 		/****************************
@@ -79,6 +79,16 @@ public class CameraLookController : PolishController {
 										GUI.Label (new Rect(0,MovementManager.controlHeight*3 + MovementManager.controlHeight*2,Screen.width/4,MovementManager.controlHeight),"Camera Interpolation Strentgh = " + cameraInterpolationStrength);
 		cameraVerticalOffSet = 				GUI.HorizontalSlider (new Rect(Screen.width/4,MovementManager.controlHeight*3 + MovementManager.controlHeight*3,Screen.width/4,MovementManager.controlHeight), cameraVerticalOffSet, 0.0f, 2.0f);
 										GUI.Label (new Rect(0,MovementManager.controlHeight*3 + MovementManager.controlHeight*3,Screen.width/4,MovementManager.controlHeight),"Vertical Offset = " + cameraVerticalOffSet);
+		cameraHorizontalOffsetPerSpeed = GUI.HorizontalSlider (new Rect(Screen.width/4,MovementManager.controlHeight*3 + MovementManager.controlHeight*4,Screen.width/4,MovementManager.controlHeight), cameraHorizontalOffsetPerSpeed, 0.0f, 1.0f);
+										GUI.Label (new Rect(0,MovementManager.controlHeight*3 + MovementManager.controlHeight*4,Screen.width/4,MovementManager.controlHeight),"Horizontal Offset Relative to Speed = " + cameraHorizontalOffsetPerSpeed);
+		follow = 			GUI.Toggle(new Rect(0,MovementManager.controlHeight*3 + MovementManager.controlHeight*5,Screen.width/2,MovementManager.controlHeight),follow,"CameraFollow Ball?");
+		distanceToPlayer = 				GUI.HorizontalSlider (new Rect(Screen.width/4,MovementManager.controlHeight*3 + MovementManager.controlHeight*6,Screen.width/4,MovementManager.controlHeight), distanceToPlayer, 0.0f, 20.0f);
+										GUI.Label (new Rect(0,MovementManager.controlHeight*3 + MovementManager.controlHeight*6,Screen.width/4,MovementManager.controlHeight),"Distance to the ball = " + distanceToPlayer);
+		height = 				GUI.HorizontalSlider (new Rect(Screen.width/4,MovementManager.controlHeight*3 + MovementManager.controlHeight*7,Screen.width/4,MovementManager.controlHeight), height, 0.0f, 10.0f);
+										GUI.Label (new Rect(0,MovementManager.controlHeight*3 + MovementManager.controlHeight*7,Screen.width/4,MovementManager.controlHeight),"Height = " + height);
+		cameraMovementStrength = GUI.HorizontalSlider (new Rect(Screen.width/4,MovementManager.controlHeight*3 + MovementManager.controlHeight*8,Screen.width/4,MovementManager.controlHeight), cameraMovementStrength, 0.0f, 4.0f);
+										GUI.Label (new Rect(0,MovementManager.controlHeight*3 + MovementManager.controlHeight*8,Screen.width/4,MovementManager.controlHeight),"Camera follow strength = " + cameraMovementStrength);
+		
 		
 	}
 }
