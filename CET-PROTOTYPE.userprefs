@@ -1,16 +1,9 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\POLISH\CameraLookController.cs">
+  <MonoDevelop.Ide.Workbench>
     <Files>
-      <File FileName="Assets\Scripts\POLISH\AnimationPolishController.cs" Line="86" Column="1" />
-      <File FileName="Assets\Scripts\POLISH\CameraShakeController.cs" Line="64" Column="15" />
-      <File FileName="Assets\Scripts\POLISH\SoundPolishController.cs" Line="77" Column="22" />
-      <File FileName="Assets\Scripts\POLISH\ParticlePolishController.cs" Line="87" Column="117" />
-      <File FileName="Assets\Scripts\MovementManager.cs" Line="169" Column="7" />
-      <File FileName="Assets\Scripts\MOVEMENT\AccelerationJump.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\POLISH\AnimationPolishController.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\MOVEMENT\CurveBasedJump.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\MOVEMENT\CurveBasedMovement.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\POLISH\CameraLookController.cs" Line="19" Column="22" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
